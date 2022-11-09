@@ -1,8 +1,5 @@
-FROM java:8
-ARG WEBCONTEXT=simplewebappdev
-
-RUN curl -O http://archive.apache.org/dist/tomcat/tomcat-8/v8.0.20/bin/apache-tomcat-8.0.20.tar.gz
-RUN tar xzf apache-tomcat-8.0.20.tar.gz
-COPY simplewebapp.war apache-tomcat-8.0.20/webapps/${WEBCONTEXT}
+FROM tomcat:8.5.35-jre10
+ADD ./target/web_app.war /usr/local/tomcat/webapps/
 EXPOSE 8080
-CMD apache-tomcat-8.0.20/bin/startup.sh && tail -f apache-tomcat-8.0.20/logs/catalina.out
+RUN chmod +x /usr/local/tomcat/bin/catalina.sh
+CMD ["/usr/local/tomcat/bin/catalina.sh", "run"]
